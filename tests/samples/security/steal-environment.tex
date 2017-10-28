@@ -1,0 +1,7 @@
+% This should fail.
+
+\documentclass{article}
+\immediate\write18{echo $TERM > var.tex}
+\begin{document}
+\input{var}
+\end{document}

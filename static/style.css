@@ -1,0 +1,269 @@
+body {
+	font-family: sans-serif;
+	margin: 0px;
+	color: #2e4052;
+	font-family: "Source Sans Pro", sans-serif;
+	box-sizing: border-box;
+}
+
+h1, h2, .fancy-font {
+	font-family: "Comfortaa", sans-serif;
+}
+
+h1, h2 {
+	text-align: center;
+	font-style: normal;
+	font-weight: lighter;
+}
+
+h1 {font-size: 4em;}
+h2 {font-size: 2.8em;}
+h3 {font-size: 2em;}
+
+h4 {font-size: 1.65em;}
+
+.downarrow {
+	bottom: 0px;
+	text-align: center;
+}
+
+pre {
+	font-family: "Source Code Pro", monospace;
+	background-color: #2e4052;
+	color: white;
+	padding: 20px;
+}
+
+p, li {
+	font-size: 1.2em;
+}
+
+p.form-error {
+	color: red;
+	margin-left: 40px;
+}
+
+code, .monospace {
+	font-family: "Source Code Pro", monospace;
+}
+
+code {
+	color: #1481ba;
+	padding: 2px 6px;
+}
+
+span.request-type {
+	background-color: #1481ba;
+	color: white;
+	padding: 6px;
+}
+
+div.splash {
+	/*background-image: url('/static/document.png'); */
+	height: 100vh;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: auto;
+	background-position: 20% 40%;
+	/*background-attachment: fixed; */
+	text-align: center;
+}
+
+div.wrapper {
+	max-width: 800px;
+	margin: 0px auto;
+}
+
+div.header {
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 0px;
+	/*text-align: center; */
+	position: fixed;
+	background-color: #2e4052;
+	font-size: 1.2em;
+	/*box-shadow: 0px 8px 12px #00000020; */
+	z-index: 1;
+}
+
+div.head-left {
+	position: fixed;
+	font-size: 1.2em;
+	padding: 0px;
+	z-index: 2;
+}
+
+div.head-right {
+	position: fixed;
+	font-size: 1.2em;
+	padding: 0px;
+	z-index: 2;
+	right: 0px;
+}
+
+div.head-link {
+	padding: 25px 35px;
+	/*margin: 15px; */
+	color: white;
+	/*border-radius: 16px; */
+	background-color: #2e4052;
+	transition: background-color 0.1s linear;
+	display: inline-block;
+}
+
+div.head-link:hover {
+	background-color: #1481ba;
+	/*background-color: #B1D1C3; */
+}
+
+div.patreon {
+	background-color: #1481ba;
+}
+
+div.patreon:hover {
+	background-color: #F96954;
+}
+
+div.bar1 {
+	margin: 0px;
+	padding: 40px;
+	/*background-color: #B1D1C3; */
+}
+
+div.bar2 {
+	margin: 0px;
+	padding: 40px;
+	background-color: #1481ba;
+	color: white;
+	/*background-color: #B2DDEC; */
+}
+
+div.inline {
+	display: inline-block;
+	margin: 0px 10px;
+}
+
+div.center-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+div.circle {
+	width: 120px;
+	height: 120px;
+	background-color: #1B7A7C;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+div.footer {
+	background-color: #2e4052;
+	color: white;
+	padding: 20px;
+	font-size: 1.2em;
+}
+
+div.progress-container {
+	height: 30px;
+	background: #2e4052;
+}
+
+div.progress-bar {
+	background: #1481ba;
+	display: block;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+div.box {
+	margin: 30px 10px;
+	padding: 10px;
+	background-color: #f0f0f0;
+}
+
+div.float-right {
+	float: right;
+}
+
+div.box h3 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+textarea {
+	padding: 8px;
+	width: 80%;
+	border: solid 1px #2e4052;
+	margin: 10px;
+	font-family: "Source Code Pro", monospace;
+}
+
+input[type="submit"], button {
+	font-family: "Source Sans Pro", sans-serif;
+	font-weight: lighter;
+	font-size: 1.4em;
+	padding: 4px 8px;
+	/*border: 2px $navy solid; */
+	background-color: #2e4052;
+	color: white;
+	border: none;
+	/*position: relative; */
+	/*box-shadow: 0px 6px 8px #00000050; */
+	width: 70px;
+	height: 70px;
+	margin: 20px 20px;
+	border-radius: 50%;
+	transition: 0.2s ease-out;
+}
+input[type="submit"]:hover, button:hover {
+	width: 90px;
+	height: 90px;
+	margin: 10px 10px;
+	/*background-color: white; */
+}
+input[type="submit"]::-moz-focus-inner, button::-moz-focus-inner {
+	border: none;
+}
+input[type="submit"].square, button.square {
+	width: auto;
+	height: auto;
+	border-radius: 0px;
+	margin: auto;
+}
+input[type="submit"].square:hover, button.square:hover {
+	width: auto;
+	height: auto;
+	margin: auto;
+}
+
+input[type="radio"] {
+	margin: 5px;
+}
+
+
+div.head-sep {
+	height: 100px;
+}
+
+div.library-icon-list img {
+	margin-left: 50px;
+	margin-right: 50px;
+	filter: grayscale(100%);
+}
+
+.justify {
+	text-align: justify;
+}
+
+#preview-image {
+	max-width: 100%;
+	max-height: 100%;
+	border: 4px solid white;
+	background-color: white;
+	display: none;
+}

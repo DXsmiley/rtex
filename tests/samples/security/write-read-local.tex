@@ -1,0 +1,14 @@
+% Fails upon trying to read the file
+
+\documentclass{article}
+
+\begin{document}
+
+\newwrite\outfile
+\openout\outfile=hello.tex
+\write\outfile{Hello, world!}
+\closeout\outfile
+
+\input{hello}
+
+\end{document}

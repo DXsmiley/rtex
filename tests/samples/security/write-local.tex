@@ -1,0 +1,14 @@
+% This doesn't seem to run an error but I don't think it produces the file either
+
+\documentclass{article}
+
+\begin{document}
+
+\newwrite\outfile
+\openout\outfile=hello.tex
+\write\outfile{Hello, world!}
+\closeout\outfile
+
+Hey!
+
+\end{document}

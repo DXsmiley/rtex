@@ -1,0 +1,30 @@
+{% macro render_field(field) %}
+	<div>
+		<div class="form-label">
+			<p>{{ field.label }}</p>
+		</div>
+		{{ field(**kwargs)|safe }}
+		{% for error in field.errors %}
+			<p class="form-error">{{ error }}</p>
+		{% endfor %}
+	</div>
+{% endmacro %}
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link href="https://fonts.googleapis.com/css?family=Comfortaa:300|Source+Code+Pro:300|Source+Sans+Pro:300" rel="stylesheet">
+		<link rel="stylesheet" href="/static/style.css">
+		<title>Hello</title>
+		{% block head_ext %}{% endblock %}
+	</head>
+	<body>
+		{% block links %}{% endblock %}
+		{% block content %}{% endblock %}
+		<div class="footer center-content">
+			Copyright &copy; DXsmiley 2017
+		</div>
+	</body>
+</html>

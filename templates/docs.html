@@ -1,0 +1,88 @@
+{% extends "framework.html" %}
+
+{% macro header_tfd() %}
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Type</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+{% endmacro %}
+
+{% block content %}
+	<div class="head-sep"></div>
+	<h1>Docs</h1>
+	<div class="wrapper">
+		<h3>Libraries</h3>
+		<p>There are no known libraries yet. If you've written one, <a href="/contact">talk to me</a>!</p>
+		<h2>REST Endpoints</h2>
+		<h3 class="monospace"><span class="request-type">POST</span> /api/v2</h3>
+		<h4>Request</h4>
+		<p>Body should be JSON data containing the LaTeX code and the output format. The format can be one of <code>pdf</code>, <code>png</code> or <code>jpg</code>.</p>
+		<pre>{
+	'code': '\begin{document} Hello \end{document}',
+	'format': 'pdf'
+}</pre>
+		<h4>Success Response</h4>
+		<pre>{
+	'staus': 'success',
+	'log': '(LaTeX rendering log, usually quite large)',
+	'filename': 'mpkitxwIIArLENkzamE0FzkURk3aA9HI.pdf'
+}</pre>
+		<h4>Failure Response</h4>
+		<pre>{
+	'status': 'error',
+	'description': 'Human readable message of what went wrong',
+	'log': '(LaTeX rendering log, not guaranteed here)'
+}</pre>
+		<h3 class="monospace"><span class="request-type">GET</span> /api/v2/<code>filename</code></h3>
+		<h4>Request</h4>
+		<p><code>filename</code> should be filename retrieved from the initial post request.</p>
+		<h4>Response</h4>
+		<p>The file. A 404 error code will be given if it doesn't exist. Files are stored on the server for an indeterminate length of time, but will be eventually be removed.</p>
+		<h2>Python Example</h2>
+		<p>Written for Python 3. You'll have to <code>pip3 install requests</code> if you don't have the library already.</p>
+		<pre>import requests
+import shutil
+
+HOST = 'http://63.142.251.124:80'
+
+LATEX = r'''
+\documentclass{article}
+\begin{document}
+\pagenumbering{gobble}
+\section{Hello, World!}
+This is \LaTeX!
+\end{document}
+'''
+
+def download_file(url, dest_filename):
+	response = requests.get(url, stream = True)
+	response.raise_for_status()
+	with open(dest_filename, 'wb') as out_file:
+		shutil.copyfileobj(response.raw, out_file)
+
+def render_latex(output_format, latex, dest_filename):
+	payload = {'code': latex, 'format': output_format}
+	response = requests.post(HOST + '/api/v2', data = payload)
+	response.raise_for_status()
+	jdata = response.json()
+	if jdata['status'] != 'success':
+		raise Exception('Failed to render LaTeX')
+	url = HOST + '/api/v2/' + jdata['filename']
+	download_file(url, dest_filename)
+
+render_latex('pdf', LATEX, './out.pdf')</pre>
+	</div>
+	<h2>Details and Limitations</h2>
+	<div class="wrapper">	
+		<ul>
+			<li>The server is currently running TeX Live 2016 with most* popular packages installed.</li>
+			<li>Potential security flaws such as <code>\write18</code> and <code>\input</code> have been disabled.</li>
+			<li>There is a rendering time limit of 8 seconds.</li>
+			<li>Please don't abuse the system. If you expect your application to produce a heavy load, please <a href="/contact">contact me</a> about it.</li>
+		</ul>
+	</div>
+	<div class="head-sep"></div>
+{% endblock %}
