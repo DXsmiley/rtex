@@ -1,22 +1,23 @@
-{% extends "framework_base.html" %}
-
-{% block links %}
-	<div class="header center-content">
-		<div>
-			<a href="/"><div class="head-link">Home</div></a>
-			<a href="/docs"><div class="head-link">Docs</div></a>
-			<a href="/contact"><div class="head-link">Contact</div></a>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link href="https://fonts.googleapis.com/css?family=Comfortaa:300|Source+Code+Pro:300|Source+Sans+Pro:300" rel="stylesheet">
+		<link rel="stylesheet" href="/static/style.css">
+		<title>Hello</title>
+		{% block head_ext %}{% endblock %}
+	</head>
+	<body>
+		<div class="header center-content">
+			<div>
+				<a href="/"><div class="head-link">Home</div></a>
+				<a href="/docs"><div class="head-link">Docs</div></a>
+				<a href="/contact"><div class="head-link">Contact</div></a>
+			</div>
 		</div>
-	</div>
-	<!-- <div class="head-left">
-		<a href="/"><div class="head-link">rTeX</div></a>
-	</div> -->
-	<!-- <div class="head-right">
-		<a><div class="head-link">Source Code</div></a>
-	</div> -->
-	<!-- <div class="head-right">
-		<a href="https://www.patreon.com/dxsmiley" target="_blank">
-			<div class="patreon head-link">Support Me!</div>
-		</a>
-	</div> -->
-{% endblock %}
+		{% block content %}{% endblock %}
+		<div class="footer center-content">
+			Copyright &copy; DXsmiley 2017
+		</div>
+	</body>
+</html>
