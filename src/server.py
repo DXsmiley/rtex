@@ -10,6 +10,9 @@ import logs
 loop = asyncio.get_event_loop()
 app = aiohttp.web.Application(loop = loop)
 app.router.add_static('/static', './static')
+app.router.add_get('/favicon.ico',
+    lambda r : aiohttp.web.HTTPSeeOther('./static/favicon.png')
+)
 aiohttp_jinja2.setup(app,
     loader = jinja2.FileSystemLoader('./templates/'))
 
