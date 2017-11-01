@@ -1,5 +1,7 @@
 {% extends "framework.html" %}
 
+{% block title %}rTeX{% endblock %}
+
 {% block content %}
 	<script src="/static/tryit.js" charset="utf-8"></script>
 	<script>
@@ -56,12 +58,5 @@ $\sum_{n=1}^\infty \frac{1}{2^n} = 1$
 			</div>
 		</div>
 	</div>
-
-	{# < div class="bar1">
-		<div class="wrapper">		
-			<h2>Demonstration Coming Soon<sup>TM</sup></h2>
-			<p>This is where the 'try it out' feature will go. If you look at the page's source code you'll see that it's mostly there kinda? But seeing as this is a service for developers, rather than humans, this isn't particularly important.</p>
-		</div>
-	</div> #}
 
 {% endblock %}
