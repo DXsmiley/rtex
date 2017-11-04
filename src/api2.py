@@ -4,6 +4,7 @@ import string
 import re
 import aiohttp
 import logs
+import stats
 
 import jobs
 from random_string import random_string
@@ -23,8 +24,10 @@ async def post(request):
     if reply['status'] == 'success':
         reply['filename'] = job_id + '.' + output_format
         logs.info('Job success : {}'.format(job_id))
+        stats.track_event('api2', 'success')
     else:
         logs.info('Job failed : {}'.format(job_id))
+        stats.track_event('api2', 'failure')
     return aiohttp.web.json_response(reply)
 
 async def get(request):

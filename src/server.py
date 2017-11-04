@@ -5,6 +5,7 @@ import aiohttp.web
 import asyncio
 import aiohttp_jinja2
 import logs
+import stats
 
 
 loop = asyncio.get_event_loop()
@@ -27,8 +28,24 @@ def static_template(filepath):
 app.router.add_get('/', static_template('index.html'))
 app.router.add_get('/pricing', static_template('pricing.html'))
 app.router.add_get('/docs', static_template('docs.html'))
-app.router.add_get('/docs/python', static_template('docs/python.html'))
 app.router.add_get('/contact', static_template('contact.html'))
+
+@aiohttp_jinja2.template('stats.html')
+async def page_stats(request):
+    suc = stats.get_column('success')
+    fal = stats.get_column('failure')
+    return {
+        'max_usage': max(s + f for s, f in zip(suc, fal)),
+        'stats': [
+            {
+                'day': d + 1,
+                'usage': s + f,
+                'success': s
+            }
+            for d, s, f in zip(range(100), suc, fal)
+        ]
+    }
+app.router.add_get('/stats', page_stats)
 
 
 import api2

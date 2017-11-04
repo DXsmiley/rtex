@@ -2,3 +2,4 @@ temp
 *.pdf
 __pycache__
 *.sublime*
+stats.json
