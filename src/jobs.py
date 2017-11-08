@@ -17,6 +17,8 @@ def mkdir(p):
 
 async def run_command_async(command, timeout = 3):
     INTERVAL = 0.25
+    if isinstance(command, str):
+        command = command.split(' ')
     process = subprocess.Popen(command)
     for i in range(int(timeout / INTERVAL)):
         await asyncio.sleep(INTERVAL)
@@ -43,10 +45,8 @@ async def render_latex(job_id, output_format, code):
             f.close()
         try:
             try:
-                cmd = COMMAND_LATEX.format(pdir = pdir, fname = fname).split(' ')
-                # print(cmd)
                 output = await run_command_async(
-                    cmd,
+                    COMMAND_LATEX.format(pdir = pdir, fname = fname),
                     timeout = 8
                 )
             finally:
@@ -88,15 +88,16 @@ async def render_latex(job_id, output_format, code):
         elif output_format in ('png', 'jpg'):
             img_file = pdf_file.replace('.pdf', '.' + output_format)
             try:
-                # output = subprocess.run(
-                #     COMMAND_IMG_CONVERT.format(pdf = pdf_file, dest = img_file),
-                #     stderr = subprocess.STDOUT,
-                #     timeout = 5
-                # )
                 output = await run_command_async(
-                    COMMAND_IMG_CONVERT.format(pdf = pdf_file, dest = img_file).split(' '),
+                    COMMAND_IMG_CONVERT.format(pdf = pdf_file, dest = img_file),
                     timeout = 3
                 )
+                # If there are multiple pages, need to make sure we get the first one
+                # A later version of the API will allow for accessing the rest of the
+                # pages. This is more of a temporary bug fix than anything.
+                multipaged = img_file.replace('.', '-0.')
+                if os.path.isfile(multipaged):
+                    os.rename(multipaged, img_file)
             except subprocess.TimeoutExpired:
                 return {
                     'status': 'error',
