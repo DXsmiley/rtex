@@ -6,6 +6,9 @@ import asyncio
 import aiohttp_jinja2
 import logs
 import stats
+import time
+import shutil
+import traceback
 
 
 loop = asyncio.get_event_loop()
@@ -46,6 +49,38 @@ async def page_stats(request):
         ]
     }
 app.router.add_get('/stats', page_stats)
+
+
+async def delete_old_files():
+    try:
+        await asyncio.sleep(3)
+        while True:
+            for i in os.listdir('./temp/'):
+                p = './temp/' + i
+                if not os.path.isfile(p):
+                    age = time.time() - os.stat(p).st_mtime
+                    if age > 60 * 60 * 2: # 2 hours
+                        logs.info('Removing {}'.format(i))
+                        shutil.rmtree(p)
+                await asyncio.sleep(1)
+            await asyncio.sleep(1)
+    except asyncio.CancelledError:
+        pass
+
+
+@app.on_startup.append
+async def start_background_tasks(app):
+    app['background_tasks'] = list(map(app.loop.create_task, [
+        delete_old_files()
+    ]))
+
+
+@app.on_cleanup.append
+async def cleanup_background_tasks(app):
+    for i in app['background_tasks']:
+        i.cancel()
+    for i in app['background_tasks']:
+        await i
 
 
 import api2

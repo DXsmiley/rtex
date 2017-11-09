@@ -2,7 +2,6 @@
 # This is for personal use you should read this code before running it
 
 pkill python3
-rm -rf temp
 mkdir -p temp
 export PORT=80
 export RELEASE=1
