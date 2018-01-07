@@ -3,6 +3,4 @@
 
 pkill python3
 mkdir -p temp
-export PORT=80
-export RELEASE=1
-nohup python3 src/server.py &
+nohup python3 src/server.py 80 --release &

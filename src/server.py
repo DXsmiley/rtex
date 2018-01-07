@@ -1,4 +1,5 @@
 import os
+import sys
 import jinja2
 import aiohttp
 import aiohttp.web
@@ -90,5 +91,8 @@ app.router.add_post('/api/v2', api2.post)
 
 if __name__ == '__main__':
     logs.info('Starting server...')
-    port = int(os.getenv('PORT', '5000'))
+    if len(sys.argv) >= 2:
+        port = int(sys.argv[1])
+    else:
+        port = int(os.getenv('PORT', '5000'))
     aiohttp.web.run_app(app, host = '0.0.0.0', port = port)

@@ -3,6 +3,7 @@
 import logging
 import logging.handlers
 import os
+import sys
 
 logger = logging.getLogger('myLogger')
 logger.setLevel(logging.INFO)
@@ -11,7 +12,7 @@ formatter = logging.Formatter('Python: { "loggerName":"%(name)s", "asciTime":"%(
 
 
 #add handler to the logger
-if os.getenv('RELEASE') != None:
+if os.getenv('RELEASE') != None or '--release' in sys.argv:
     handler = logging.handlers.SysLogHandler('/dev/log')
     handler.formatter = formatter
     logger.addHandler(handler)
