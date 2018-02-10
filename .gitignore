@@ -3,3 +3,5 @@ temp
 __pycache__
 *.sublime*
 stats.json
+node_modules
+package-lock.json
