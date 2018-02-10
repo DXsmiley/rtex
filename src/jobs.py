@@ -11,9 +11,11 @@ COMMAND_LATEX = \
 
 COMMAND_IMG_CONVERT = "convert -trim -density 200 -quality 85 {pdf} {dest}"
 
+
 def mkdir(p):
     if not os.path.exists(p):
         os.makedirs(p)
+
 
 async def run_command_async(command, timeout = 3):
     INTERVAL = 0.25
@@ -32,6 +34,7 @@ async def run_command_async(command, timeout = 3):
         return str(process.stdout)
     raise subprocess.CalledProcessError(retcode, command, process.stdout, process.stderr)
 
+
 async def render_latex(job_id, output_format, code):
     try:
         pdir = './temp/' + job_id + '/'
@@ -39,6 +42,11 @@ async def render_latex(job_id, output_format, code):
         fname = pdir + 'a.tex'
         latex_log = ''
         # print(pdir, code)
+        if code_is_dangerous(code):
+            return {
+                'status': 'error',
+                'description': 'code was detected as dangerous'
+            }
         with open(fname, 'wt') as f:
             f.write(code)
             f.flush()
@@ -124,3 +132,10 @@ async def render_latex(job_id, output_format, code):
             'description': 'The server broke. This is bad.'
             # 'details': repr(e)
         }
+
+
+def code_is_dangerous(code):
+    for i in [r'\input', r'\write18']:
+        if i in code:
+            return True
+    return False
