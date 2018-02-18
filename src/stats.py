@@ -9,6 +9,7 @@
 import json
 import time
 import itertools
+import logs
 
 
 STORAGE = {}
@@ -30,7 +31,11 @@ def load():
             jd = json.load(f)
             d = {int(k): v for k, v in jd.items()}
             return strip_old_data(d)
+    except json.JSONDecodeError:
+        logs.info("Error decoding stats.json, will recreate it.")
     except FileNotFoundError:
+        logs.info("Could not find stats.json, will create it.")
+    else:
         return {}
 
 
