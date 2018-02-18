@@ -29,14 +29,16 @@ def load():
     try:
         with open('stats.json') as f:
             jd = json.load(f)
-            d = {int(k): v for k, v in jd.items()}
-            return strip_old_data(d)
+            return {
+                'by-time': {int(k): v for k, v in jd.get('by-time', {}).items()},
+                'by-client': jd.get('by-client', {})
+            }
     except json.JSONDecodeError:
         logs.info("Error decoding stats.json, will recreate it.")
     except FileNotFoundError:
         logs.info("Could not find stats.json, will create it.")
-    else:
-        return {}
+    finally:
+        return {'by-time': {}, 'by-client': {}}
 
 
 def save(data):
@@ -49,7 +51,7 @@ def save_maybe(data):
     global SAVE_INTERVAL
     now = current_second()
     if now - LAST_SAVE > SAVE_INTERVAL:
-        strip_old_data(data)
+        # strip_old_data(data['by-time'])
         save(data)
         LAST_SAVE = now
 
@@ -62,19 +64,20 @@ def strip_old_data(data):
     return data
 
 
-def track_event(name, *extra, count = 1):
+def track_event(name, *extra, client = 'unnamed', count = 1):
     global STORAGE
     for i in itertools.chain([name], extra):
         day = current_day()
-        STORAGE[day] = STORAGE.get(day, {})
-        STORAGE[day][i] = STORAGE[day].get(i, 0) + count
+        STORAGE['by-time'][day] = STORAGE['by-time'].get(day, {})
+        STORAGE['by-time'][day][i] = STORAGE['by-time'][day].get(i, 0) + count
+        STORAGE['by-client'][client] = STORAGE['by-client'].get(client, 0) + count
     save_maybe(STORAGE)
 
 
 def get_column(name):
     day = current_day()
     return [
-        STORAGE.get(i, {}).get(name, 0)
+        STORAGE['by-time'].get(i, {}).get(name, 0)
         for i in range(day, day - 60, -1)
     ]
 

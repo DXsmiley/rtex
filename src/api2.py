@@ -14,6 +14,7 @@ async def post(request):
     req = (await request.post()) or (await request.json())
     code = req.get('code')
     output_format = req.get('format').lower()
+    client_name = req.get('client_name', 'unnamed')
     if not isinstance(code, str) or not isinstance(output_format, str):
         raise aiohttp.web.json_response({'error': 'bad input formats'}) 
     if output_format not in ('pdf', 'png', 'jpg'):
@@ -24,10 +25,10 @@ async def post(request):
     if reply['status'] == 'success':
         reply['filename'] = job_id + '.' + output_format
         logs.info('Job success : {}'.format(job_id))
-        stats.track_event('api2', 'success')
+        stats.track_event('api2', 'success', client=client_name)
     else:
         logs.info('Job failed : {}'.format(job_id))
-        stats.track_event('api2', 'failure')
+        stats.track_event('api2', 'failure', client=client_name)
     return aiohttp.web.json_response(reply)
 
 async def get(request):
