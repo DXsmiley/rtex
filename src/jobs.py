@@ -41,12 +41,6 @@ async def render_latex(job_id, output_format, code):
         mkdir(pdir)
         fname = pdir + 'a.tex'
         latex_log = ''
-        # print(pdir, code)
-        if code_is_dangerous(code):
-            return {
-                'status': 'error',
-                'description': 'code was detected as dangerous'
-            }
         with open(fname, 'wt') as f:
             f.write(code)
             f.flush()
@@ -132,10 +126,3 @@ async def render_latex(job_id, output_format, code):
             'description': 'The server broke. This is bad.'
             # 'details': repr(e)
         }
-
-
-def code_is_dangerous(code):
-    for i in [r'\input', r'\write18']:
-        if i in code:
-            return True
-    return False
