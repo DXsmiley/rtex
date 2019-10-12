@@ -92,8 +92,8 @@ async def render_latex(job_id, output_format, code, density, quality):
             try:
                 output = await run_command_async(
                     COMMAND_IMG_CONVERT.format(
-                        density = 200,
-                        quality = 85,
+                        density = density,
+                        quality = quality,
                         pdf = pdf_file,
                         dest = img_file
                     ),
