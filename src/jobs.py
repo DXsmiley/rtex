@@ -9,7 +9,7 @@ import logs
 COMMAND_LATEX = \
 "pdflatex -no-shell-escape -interaction=nonstopmode -output-directory={pdir} {fname}"
 
-COMMAND_IMG_CONVERT = "convert -trim -density 200 -quality 85 {pdf} {dest}"
+COMMAND_IMG_CONVERT = "convert -trim -density {density} -quality {quality} {pdf} {dest}"
 
 
 def mkdir(p):
@@ -35,7 +35,7 @@ async def run_command_async(command, timeout = 3):
     raise subprocess.CalledProcessError(retcode, command, process.stdout, process.stderr)
 
 
-async def render_latex(job_id, output_format, code):
+async def render_latex(job_id, output_format, code, density, quality):
     try:
         pdir = './temp/' + job_id + '/'
         mkdir(pdir)
@@ -91,7 +91,12 @@ async def render_latex(job_id, output_format, code):
             img_file = pdf_file.replace('.pdf', '.' + output_format)
             try:
                 output = await run_command_async(
-                    COMMAND_IMG_CONVERT.format(pdf = pdf_file, dest = img_file),
+                    COMMAND_IMG_CONVERT.format(
+                        density = 200,
+                        quality = 85,
+                        pdf = pdf_file,
+                        dest = img_file
+                    ),
                     timeout = 3
                 )
                 # If there are multiple pages, need to make sure we get the first one

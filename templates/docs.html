@@ -26,6 +26,14 @@
 	'code': '\begin{document} Hello \end{document}',
 	'format': 'pdf'
 }</pre>
+		<p>When <code>format</code> is either <code>png</code> or <code>jpg</code>, two more fields are available. <code>quality</code> specifies the compression quality of the resulting image, with 100 being the highest quality. <code>density</code> is the frequency with which to sample pixels from the PDF file. Higher <code>density</code> will result in a larger file.</p>
+		<pre>{
+	'code': '\begin{document} Hello \end{document}',
+	'format': 'pdf',
+	'quality': 20,
+	'density': 300
+}</pre>
+		<p>The default value for <code>quality</code> is <code>85</code>, and the default value for <code>density</code> is <code>200</code>.</p>
 		<h4>Success Response</h4>
 		<pre>{
 	'staus': 'success',
