@@ -10,10 +10,12 @@ import stats
 import time
 import shutil
 import traceback
+import aiohttp_cors
 
 
 loop = asyncio.get_event_loop()
 app = aiohttp.web.Application(loop = loop)
+cors = aiohttp_cors.setup(app)
 app.router.add_static('/static', './static')
 app.router.add_get('/favicon.ico',
     lambda r : aiohttp.web.HTTPSeeOther('./static/favicon.png')
@@ -85,8 +87,17 @@ async def cleanup_background_tasks(app):
 
 
 import api2
-app.router.add_get('/api/v2/{filename}', api2.get)
-app.router.add_post('/api/v2', api2.post)
+
+allow_from_all_origins = {
+    '*': aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers='*',
+            allow_headers='*',
+        )
+}
+
+cors.add(app.router.add_get('/api/v2/{filename}', api2.get), allow_from_all_origins)
+cors.add(app.router.add_post('/api/v2', api2.post), allow_from_all_origins)
 
 
 if __name__ == '__main__':

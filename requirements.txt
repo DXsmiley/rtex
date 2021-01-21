@@ -2,3 +2,4 @@ requests
 jinja2
 aiohttp
 aiohttp-jinja2
+aiohttp_cors
