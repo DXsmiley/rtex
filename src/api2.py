@@ -41,7 +41,7 @@ async def post(request):
 
 async def get(request):
     filename = request.match_info['filename']
-    if not re.match(r'^[A-Za-z0-9]{64}\.(pdf|png|pdf)$', filename):
+    if not re.match(r'^[A-Za-z0-9]{64}\.(jpg|png|pdf)$', filename):
         logs.info('{} not found'.format(filename))
         raise aiohttp.web.HTTPBadRequest
     path = './temp/' + filename.replace('.', '/a.')
